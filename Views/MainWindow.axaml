@@ -30,6 +30,45 @@
             <TextBlock Text="Pantograph 2:" Margin="5" VerticalAlignment="Center"/>
             <TextBlock Text="{Binding Panto2Status}" Foreground="{Binding Panto2StatusBrush}" Margin="5" VerticalAlignment="Center"/>
         </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0">
+            <TextBlock Text="Headlights: " Margin="5" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding HeadlightsStatus}" Foreground="{Binding HeadlightsStatusBrush}" Margin="5" VerticalAlignment="Center"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0">
+            <TextBlock Text="Pause: " Margin="5" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding PauseStatus}" Foreground="{Binding PauseStatusBrush}" Margin="5" VerticalAlignment="Center"/>
+            <TextBlock Text="View: " Margin="5" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding ViewStatus}" Margin="5" VerticalAlignment="Center"/>
+            <TextBlock Text="Station Monitor: " Margin="5" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding StationMonitorStatus}" Foreground="{Binding StationMonitorStatusBrush}" Margin="5" VerticalAlignment="Center"/>
+            <TextBlock Text="Track Monitor: " Margin="5" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding TrackMonitorStatus}" Foreground="{Binding TrackMonitorStatusBrush}" Margin="5" VerticalAlignment="Center"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0">
+            <TextBlock Text="Direction: " Margin="5" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding DirectionStatus}" Foreground="{Binding DirectionStatusBrush}" Margin="5" VerticalAlignment="Center"/>
+            <TextBlock Text="Throttle: " Margin="5" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding ThrottleStatus}" Foreground="{Binding ThrottleStatusBrush}" Margin="5" VerticalAlignment="Center"/>
+            <TextBlock Text="Engine Brake: " Margin="5" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding EngineBrakeStatus}" Foreground="{Binding EngineBrakeStatusBrush}" Margin="5" VerticalAlignment="Center"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0">
+            <TextBlock Text="Train Brake: " Margin="5" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding TrainBrakeStatus}" Foreground="{Binding TrainBrakeStatusBrush}" Margin="5" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <Grid Width="800" Height="200" HorizontalAlignment="Center" Margin="0,20,0,0">
+            <!-- Base train -->
+            <Image Source="avares://OpenRails-HID-Tester/Assets/TrainBase.png" Width="500"/>
+
+            <!-- Pantograph 1 -->
+            <Image Source="{Binding Panto1Image}" Width="50" Height="50"
+                   Margin="{Binding Panto1Margin}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+            <!-- Pantograph 2 -->
+            <Image Source="{Binding Panto2Image}" Width="50" Height="50"
+                   Margin="{Binding Panto2Margin}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        </Grid>
     </StackPanel>
 
 </Window>
