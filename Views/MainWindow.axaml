@@ -6,8 +6,8 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="OpenRails_HID_Tester.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
-        Title="OpenRails_HID_Tester"
+        Icon="/Assets/icon.ico"
+        Title="OpenRails HID Tester"
         CanResize="False"
         Height="650"
         Width="800">
