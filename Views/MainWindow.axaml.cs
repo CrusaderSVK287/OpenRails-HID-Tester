@@ -173,6 +173,8 @@ namespace OpenRails_HID_Tester.Views
 
                                     // Update images
                                     vm.UpdatePantographImages(panto1, panto2);
+                                    // headlights
+                                    _ = vm.UpdateHeadlightsImage(headlights);
                                 }
                             }
                         }

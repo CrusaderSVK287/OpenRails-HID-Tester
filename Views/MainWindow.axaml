@@ -68,6 +68,12 @@
             <!-- Pantograph 2 -->
             <Image Source="{Binding Panto2Image}" Width="50" Height="50"
                    Margin="{Binding Panto2Margin}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+            <!-- Headlights -->
+            <Image Source="{Binding HeadlightsImage}" Width="180"
+                   Margin="627,100,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Opacity="{Binding HeadlightsOpacity}"/>
+
+
         </Grid>
     </StackPanel>
 
