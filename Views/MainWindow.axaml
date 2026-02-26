@@ -7,7 +7,10 @@
         x:Class="OpenRails_HID_Tester.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="OpenRails_HID_Tester">
+        Title="OpenRails_HID_Tester"
+        CanResize="False"
+        Height="600"
+        Width="800">
 
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
@@ -15,6 +18,9 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
+	<StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5">
+        <Button Click="ConnectHIDDevice">Connect</Button>
+		<TextBlock Text="{Binding DeviceStatusText}" Margin="5" VerticalAlignment="Center"/>
+        <TextBlock Text="{Binding DeviceStatus}" Foreground="{Binding DeviceStatusBrush}" Margin="5" VerticalAlignment="Center"/>
+    </StackPanel>
 </Window>
