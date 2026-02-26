@@ -26,6 +26,9 @@ namespace OpenRails_HID_Tester.ViewModels
             TrainBrakeIcon2Image = trainBrakeOffImage;
             TrainBrakeIcon3Image = trainBrakeOffImage;
             TrainBrakeIcon4Image = trainBrakeOffImage;
+
+            ParallaxBgImage1 = parallaxImageMountain;
+            ParallaxBgImage2 = parallaxImageMountainF;
         }
 
         private bool _headlightsState = false;          // current logical state
@@ -182,12 +185,27 @@ namespace OpenRails_HID_Tester.ViewModels
         [ObservableProperty]
         private Bitmap trainBrakeIcon4Image;
 
-        // rail animation
+        // Parallax animation
         [ObservableProperty]
         private double railsX1 = 0;
-
         [ObservableProperty]
         private double railsX2 = 800;
+        [ObservableProperty]
+        private double mountainX1 = 0;
+        [ObservableProperty]
+        private double mountainX2 = 800;
+
+        private readonly Bitmap parallaxImageMountain = LoadAsset("ParallaxMountain.png"); // Highest brake level
+        private readonly Bitmap parallaxImageMountainF = LoadAsset("ParallaxMountainF.png"); // Brake level 1
+        private readonly Bitmap parallaxImageCity = LoadAsset("ParallaxCity.png"); // Brake level 2
+        [ObservableProperty]
+        private Bitmap parallaxBgImage1;
+        [ObservableProperty]
+        private Bitmap parallaxBgImage2;
+
+        [ObservableProperty]
+        private int parallaxIndex = 0;
+
         public void UpdatePantographImages(bool panto1, bool panto2)
         {
             // Update images
@@ -248,12 +266,20 @@ namespace OpenRails_HID_Tester.ViewModels
             {
                 RailsX1 -= _speed;
                 RailsX2 -= _speed;
+                MountainX1 -= _speed * 0.05; // mountains move slower for parallax
+                MountainX2 -= _speed * 0.05;
 
                 if (RailsX1 <= -800)
                     RailsX1 = RailsX2 + 800;
 
                 if (RailsX2 <= -800)
                     RailsX2 = RailsX1 + 800;
+
+                if (MountainX1 <= -800)
+                    MountainX1 = MountainX2 + 800;
+
+                if (MountainX2 <= -800)
+                    MountainX2 = MountainX1 + 800;
 
                 await Task.Delay(delay);
             }
@@ -262,8 +288,6 @@ namespace OpenRails_HID_Tester.ViewModels
         {
             _speed = speed;
         }
-
-
 
         public void UpdateDirection(int directionPercent)
         {
@@ -334,6 +358,20 @@ namespace OpenRails_HID_Tester.ViewModels
                     TrainBrakeIcon3Image = trainBrakeOffImage;
                     TrainBrakeIcon4Image = trainBrakeOffImage;
                     break;
+            }
+        }
+
+        public void UpdateParallaxBackground()
+        {
+            if (ParallaxIndex == 0)
+            {
+                ParallaxBgImage1 = parallaxImageMountain;
+                ParallaxBgImage2 = parallaxImageMountainF;
+            }
+            else if (ParallaxIndex == 1)
+            {
+                ParallaxBgImage1 = parallaxImageCity;
+                ParallaxBgImage2 = parallaxImageCity;
             }
         }
     }

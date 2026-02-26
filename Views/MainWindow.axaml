@@ -52,20 +52,39 @@
             <TextBlock Text="Engine Brake: " Margin="5" VerticalAlignment="Center"/>
             <TextBlock Text="{Binding EngineBrakeStatus}" Foreground="{Binding EngineBrakeStatusBrush}" Margin="5" VerticalAlignment="Center"/>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0">
-            <TextBlock Text="Train Brake: " Margin="5" VerticalAlignment="Center"/>
-            <TextBlock Text="{Binding TrainBrakeStatus}" Foreground="{Binding TrainBrakeStatusBrush}" Margin="5" VerticalAlignment="Center"/>
-        </StackPanel>
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" /> 
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+    
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,5,0,0" Grid.Column="0">
+                <TextBlock Text="Train Brake: " Margin="5" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding TrainBrakeStatus}" Foreground="{Binding TrainBrakeStatusBrush}" Margin="5" VerticalAlignment="Center"/>
+            </StackPanel>
+    
+            <ComboBox Width="130" SelectedIndex="{Binding ParallaxIndex}" ZIndex="1" Grid.Column="1" 
+                      Margin="0,0,10,0" SelectionChanged="ComboBox_SelectionChanged">
+                <ComboBoxItem Content="Mountain"/>
+                <ComboBoxItem Content="City"/>
+            </ComboBox>
+        </Grid>
 
         <Grid Width="800" Height="200" HorizontalAlignment="Center" Margin="0,20,0,0">
 
             <!-- Rails Layer (behind everything) -->
             <Canvas Height="50" ZIndex="-1" Margin="0,-250,0,0">
                 <Image Source="avares://OpenRails-HID-Tester/Assets/RailsBg.png"
-                       Canvas.Left="{Binding RailsX1}" Height="250"/>
+                       Canvas.Left="{Binding RailsX1}" Height="250" Width="800" Margin="0,18,0,0"/>
 
                 <Image Source="avares://OpenRails-HID-Tester/Assets/RailsBg.png"
-                       Canvas.Left="{Binding RailsX2}" Height="250"/>
+                       Canvas.Left="{Binding RailsX2}" Height="250" Width="800" Margin="0,18,0,0"/>
+
+                <Image Source="{Binding ParallaxBgImage1}"
+                       Canvas.Left="{Binding MountainX1}" Margin="0,38,0,0" Height="180" Width="800" Stretch="Fill" ZIndex="-2"/>
+
+                <Image Source="{Binding ParallaxBgImage2}"
+                       Canvas.Left="{Binding MountainX2}" Margin="0,38,0,0" Height="180" Width="800" Stretch="Fill" ZIndex="-2"/>
             </Canvas>
 
             <!-- Base train -->

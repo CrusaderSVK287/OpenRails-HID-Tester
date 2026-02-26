@@ -177,7 +177,7 @@ namespace OpenRails_HID_Tester.Views
                                     // headlights
                                     _ = vm.UpdateHeadlightsImage(headlights);
 
-                                    double speed = throttlePercent / 10.0; // tweak divisor to taste
+                                    double speed = throttlePercent / 4.0; // tweak divisor to taste
                                     vm.updateSpeed(speed);
 
                                     vm.UpdateDirection(directionPercent);
@@ -203,6 +203,20 @@ namespace OpenRails_HID_Tester.Views
                 }
                 vm.StopRailsAnimation();
             }, token);
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (vm is null && DataContext is MainWindowViewModel _vm)
+            {
+                vm = _vm;
+            }
+            if (vm is null)
+            {
+                return;
+            }
+
+            vm.UpdateParallaxBackground();
         }
     }
 }
