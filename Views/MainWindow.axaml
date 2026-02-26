@@ -9,7 +9,7 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="OpenRails_HID_Tester"
         CanResize="False"
-        Height="600"
+        Height="650"
         Width="800">
 
     <Design.DataContext>
@@ -58,23 +58,69 @@
         </StackPanel>
 
         <Grid Width="800" Height="200" HorizontalAlignment="Center" Margin="0,20,0,0">
+
+            <!-- Rails Layer (behind everything) -->
+            <Canvas Height="50" ZIndex="-1" Margin="0,-250,0,0">
+                <Image Source="avares://OpenRails-HID-Tester/Assets/RailsBg.png"
+                       Canvas.Left="{Binding RailsX1}" Height="250"/>
+
+                <Image Source="avares://OpenRails-HID-Tester/Assets/RailsBg.png"
+                       Canvas.Left="{Binding RailsX2}" Height="250"/>
+            </Canvas>
+
             <!-- Base train -->
-            <Image Source="avares://OpenRails-HID-Tester/Assets/TrainBase.png" Width="500"/>
+            <Image Source="avares://OpenRails-HID-Tester/Assets/TrainBase.png"
+                   Width="500"
+                   HorizontalAlignment="Center"/>
 
             <!-- Pantograph 1 -->
             <Image Source="{Binding Panto1Image}" Width="50" Height="50"
-                   Margin="{Binding Panto1Margin}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                   Margin="{Binding Panto1Margin}"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"/>
 
             <!-- Pantograph 2 -->
             <Image Source="{Binding Panto2Image}" Width="50" Height="50"
-                   Margin="{Binding Panto2Margin}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                   Margin="{Binding Panto2Margin}"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"/>
 
             <!-- Headlights -->
             <Image Source="{Binding HeadlightsImage}" Width="180"
-                   Margin="627,100,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Opacity="{Binding HeadlightsOpacity}"/>
-
+                   Margin="627,100,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Opacity="{Binding HeadlightsOpacity}"/>
 
         </Grid>
+
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="5,5,0,0">
+            <StackPanel Orientation="Vertical" Margin="10" HorizontalAlignment="Center" Width="150">
+                <Image Source="{Binding Panto1IconImage}" Width="50" Height="50"/>
+                <Image Source="{Binding Panto2IconImage}" Width="50" Height="50" Margin="0,0,0,20"/>
+                <Image Source="{Binding HeadlightsIconImage}" Width="50" Height="50"/>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Margin="10" HorizontalAlignment="Center" Width="150">
+                <Image Source="{Binding DirectionForwardImage}" Width="50" Height="50"/>
+                <Image Source="{Binding DirectionNeutralImage}" Width="50" Height="50"/>
+                <Image Source="{Binding DirectionBackwardsImage}" Width="50" Height="50"/>
+            </StackPanel>
+            <StackPanel Width="150">
+                <ProgressBar Width="20"
+                        Minimum="0" Maximum="100" Value="{Binding ThrottlePercent}" Orientation="Vertical"/>
+            </StackPanel>
+            <Image Source="avares://OpenRails-HID-Tester/Assets/EngineBreakIcon.png" Width="150" Height="150">
+                <Image.RenderTransform>
+                    <RotateTransform Angle="{Binding DirectionAngle}"/>
+                </Image.RenderTransform>
+            </Image>
+            <StackPanel Orientation="Vertical" Width="200" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <Image Source="{Binding TrainBrakeIcon1Image}" Width="100" Height="50" Margin="0,0,50,0"/>
+                <Image Source="{Binding TrainBrakeIcon2Image}" Width="100" Height="50" Margin="0,0,50,0"/>
+                <Image Source="{Binding TrainBrakeIcon3Image}" Width="100" Height="50" Margin="0,0,50,0"/>
+                <Image Source="{Binding TrainBrakeIcon4Image}" Width="100" Height="50" Margin="0,0,50,0"/>
+            </StackPanel>
+        </StackPanel>
     </StackPanel>
 
 </Window>

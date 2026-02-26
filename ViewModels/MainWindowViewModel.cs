@@ -14,6 +14,18 @@ namespace OpenRails_HID_Tester.ViewModels
         {
             Panto1Image = panto1Down;
             Panto2Image = panto2Down;
+            Panto1IconImage = pantoIconOff;
+            Panto2IconImage = pantoIconOff;
+            HeadlightsIconImage = HeadlightsIconOff;
+
+            DirectionForwardImage = directionForwardOff;
+            DirectionNeutralImage = directionNeutralOff;
+            DirectionBackwardsImage = directionBackwardsOff;
+
+            TrainBrakeIcon1Image = trainBrakeOffImage;
+            TrainBrakeIcon2Image = trainBrakeOffImage;
+            TrainBrakeIcon3Image = trainBrakeOffImage;
+            TrainBrakeIcon4Image = trainBrakeOffImage;
         }
 
         private bool _headlightsState = false;          // current logical state
@@ -74,7 +86,7 @@ namespace OpenRails_HID_Tester.ViewModels
         private string engineBrakeStatus = "";
         [ObservableProperty]
         private IBrush engineBrakeStatusBrush = Brushes.Black;
-        
+
         [ObservableProperty]
         private string trainBrakeStatus = "";
         [ObservableProperty]
@@ -100,17 +112,90 @@ namespace OpenRails_HID_Tester.ViewModels
         private readonly double panto1BaseY = 44;
         private readonly double panto2BaseY = 44;
 
+        // panto icons
+        private readonly Bitmap pantoIconOn = LoadAsset("ElectricalOn.png");
+        private readonly Bitmap pantoIconOff = LoadAsset("ElectricalOff.png");
+
+        [ObservableProperty]
+        private Bitmap panto1IconImage;
+
+        [ObservableProperty]
+        private Bitmap panto2IconImage;
+
         // Headlights picture 
         [ObservableProperty]
         private Bitmap headlightsImage = LoadAsset("Headlights.png");
         [ObservableProperty]
         private double headlightsOpacity = 0.0; // start off
+        // headlights icon
 
+        private readonly Bitmap HeadlightsIconOn = LoadAsset("HeadlightsIconOn.png");
+        private readonly Bitmap HeadlightsIconOff = LoadAsset("HeadlightsIconOff.png");
+
+        [ObservableProperty]
+        private Bitmap headlightsIconImage;
+
+        // Direction icons
+        private readonly Bitmap directionForwardOn = LoadAsset("EmptyArrowUpOn.png");
+        private readonly Bitmap directionForwardOff = LoadAsset("EmptyArrowUpOff.png");
+
+        private readonly Bitmap directionNeutralOn = LoadAsset("EmptyNeutralOn.png");
+        private readonly Bitmap directionNeutralOff = LoadAsset("EmptyNeutralOff.png");
+
+        private readonly Bitmap directionBackwardsOn = LoadAsset("EmptyArrowDownOn.png");
+        private readonly Bitmap directionBackwardsOff = LoadAsset("EmptyArrowDownOff.png");
+
+        [ObservableProperty]
+        private Bitmap directionForwardImage;
+
+        [ObservableProperty]
+        private Bitmap directionNeutralImage;
+
+        [ObservableProperty]
+        private Bitmap directionBackwardsImage;
+
+        // Throttle bar
+        [ObservableProperty]
+        private int throttlePercent = 0;
+
+        // engine break rotation
+        [ObservableProperty]
+        private double directionAngle = 0.0;
+
+        // train break
+        // Brake Level Images
+        private readonly Bitmap trainBrake0Image = LoadAsset("TrainBrake0.png"); // Highest brake level
+        private readonly Bitmap trainBrake1Image = LoadAsset("TrainBrake1.png"); // Brake level 1
+        private readonly Bitmap trainBrake2Image = LoadAsset("TrainBrake2.png"); // Brake level 2
+        private readonly Bitmap trainBrakeOffImage = LoadAsset("TrainBrakeOff.png"); // Off state
+
+        // Observable properties for each of the brake images
+        [ObservableProperty]
+        private Bitmap trainBrakeIcon1Image;
+
+        [ObservableProperty]
+        private Bitmap trainBrakeIcon2Image;
+
+        [ObservableProperty]
+        private Bitmap trainBrakeIcon3Image;
+
+        [ObservableProperty]
+        private Bitmap trainBrakeIcon4Image;
+
+        // rail animation
+        [ObservableProperty]
+        private double railsX1 = 0;
+
+        [ObservableProperty]
+        private double railsX2 = 800;
         public void UpdatePantographImages(bool panto1, bool panto2)
         {
             // Update images
             Panto1Image = panto1 ? panto1Up : panto1Down;
             Panto2Image = panto2 ? panto2Up : panto2Down;
+
+            Panto1IconImage = panto1 ? pantoIconOn : pantoIconOff;
+            Panto2IconImage = panto2 ? pantoIconOn : pantoIconOff;
 
             // Shift DOWN 20px when up
             Panto1Margin = new Thickness(525, panto1 ? panto1BaseY - 13 : panto1BaseY, 0, 0);
@@ -127,6 +212,7 @@ namespace OpenRails_HID_Tester.ViewModels
 
             _headlightsState = lights;
             _isHeadlightsAnimating = true;
+            HeadlightsIconImage = lights ? HeadlightsIconOn : HeadlightsIconOff;
 
             double start = HeadlightsOpacity;
             double target = lights ? 1.0 : 0.0;
@@ -144,6 +230,111 @@ namespace OpenRails_HID_Tester.ViewModels
 
             HeadlightsOpacity = target; // ensure exact final value
             _isHeadlightsAnimating = false;
+        }
+
+        private bool _isRailsAnimating = false;
+        private double _speed = 0.0;
+        public async Task StartRailsAnimation(double speed)
+        {
+            if (_isRailsAnimating)
+                return;
+
+            _isRailsAnimating = true;
+
+            const int delay = 16; // ~60 FPS
+
+            _speed = speed;
+            while (_isRailsAnimating)
+            {
+                RailsX1 -= _speed;
+                RailsX2 -= _speed;
+
+                if (RailsX1 <= -800)
+                    RailsX1 = RailsX2 + 800;
+
+                if (RailsX2 <= -800)
+                    RailsX2 = RailsX1 + 800;
+
+                await Task.Delay(delay);
+            }
+        }
+        public void updateSpeed(double speed)
+        {
+            _speed = speed;
+        }
+
+
+
+        public void UpdateDirection(int directionPercent)
+        {
+            // Example logic:
+            // < 30%  = Backwards
+            // 30–70% = Neutral
+            // > 70%  = Forward
+
+            bool isForward = directionPercent > 70;
+            bool isNeutral = directionPercent >= 30 && directionPercent <= 70;
+            bool isBackwards = directionPercent < 30;
+
+            DirectionForwardImage = isForward ? directionForwardOn : directionForwardOff;
+            DirectionNeutralImage = isNeutral ? directionNeutralOn : directionNeutralOff;
+            DirectionBackwardsImage = isBackwards ? directionBackwardsOn : directionBackwardsOff;
+        }
+
+        public void StopRailsAnimation()
+        {
+            _isRailsAnimating = false;
+        }
+
+        public void updateThrottle(int throttlePercent)
+        {
+            ThrottlePercent = throttlePercent;
+        }
+
+        public void UpdateEngineBreak(double directionPercent)
+        {
+            // Rotate based on direction (arbitrary logic for example)
+            DirectionAngle = -(directionPercent * 90 / 100);  // Converts the percentage to a full rotation (0-360 degrees)
+        }
+
+        public void UpdateTrainBrake(int brakeLevel)
+        {
+            // Set all to off by default
+            TrainBrakeIcon1Image = trainBrakeOffImage;
+            TrainBrakeIcon2Image = trainBrakeOffImage;
+            TrainBrakeIcon3Image = trainBrakeOffImage;
+            TrainBrakeIcon4Image = trainBrakeOffImage;
+
+            switch (brakeLevel)
+            {
+                case 0:
+                    // Highest brake level
+                    TrainBrakeIcon4Image = trainBrake0Image;  // Show the highest brake icon
+                    break;
+
+                case 1:
+                    // Brake Level 1
+                    TrainBrakeIcon1Image = trainBrake1Image;  // Show level 1 brake
+                    break;
+
+                case 2:
+                    // Brake Level 2
+                    TrainBrakeIcon2Image = trainBrake2Image;  // Show level 2 brake
+                    break;
+
+                case 3:
+                    // Brake Level 3
+                    TrainBrakeIcon3Image = trainBrake2Image;  // Show level 3 brake (same image as 2, or different image if needed)
+                    break;
+
+                default:
+                    // Default case, all images should be off
+                    TrainBrakeIcon1Image = trainBrakeOffImage;
+                    TrainBrakeIcon2Image = trainBrakeOffImage;
+                    TrainBrakeIcon3Image = trainBrakeOffImage;
+                    TrainBrakeIcon4Image = trainBrakeOffImage;
+                    break;
+            }
         }
     }
 }

@@ -78,6 +78,7 @@ namespace OpenRails_HID_Tester.Views
         {
             Task.Run(async () =>
             {
+                _ = vm.StartRailsAnimation(0.0);
                 while (!token.IsCancellationRequested)
                 {
                     try
@@ -175,6 +176,14 @@ namespace OpenRails_HID_Tester.Views
                                     vm.UpdatePantographImages(panto1, panto2);
                                     // headlights
                                     _ = vm.UpdateHeadlightsImage(headlights);
+
+                                    double speed = throttlePercent / 10.0; // tweak divisor to taste
+                                    vm.updateSpeed(speed);
+
+                                    vm.UpdateDirection(directionPercent);
+                                    vm.updateThrottle(throttlePercent);
+                                    vm.UpdateEngineBreak(engineBrakePercent);
+                                    vm.UpdateTrainBrake(trainBrake);
                                 }
                             }
                         }
@@ -192,6 +201,7 @@ namespace OpenRails_HID_Tester.Views
                         _pollingCts?.Cancel();
                     }
                 }
+                vm.StopRailsAnimation();
             }, token);
         }
     }
