@@ -18,9 +18,18 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-	<StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5">
-        <Button Click="ConnectHIDDevice">Connect</Button>
-		<TextBlock Text="{Binding DeviceStatusText}" Margin="5" VerticalAlignment="Center"/>
-        <TextBlock Text="{Binding DeviceStatus}" Foreground="{Binding DeviceStatusBrush}" Margin="5" VerticalAlignment="Center"/>
+    <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left">
+	    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0">
+            <Button Click="ConnectHIDDevice">Connect</Button>
+		    <TextBlock Text="Device status: " Margin="5" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding DeviceStatus}" Foreground="{Binding DeviceStatusBrush}" Margin="5" VerticalAlignment="Center"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0">
+            <TextBlock Text="Pantograph 1:" Margin="5" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding Panto1Status}" Foreground="{Binding Panto1StatusBrush}" Margin="5" VerticalAlignment="Center"/>
+            <TextBlock Text="Pantograph 2:" Margin="5" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding Panto2Status}" Foreground="{Binding Panto2StatusBrush}" Margin="5" VerticalAlignment="Center"/>
+        </StackPanel>
     </StackPanel>
+
 </Window>

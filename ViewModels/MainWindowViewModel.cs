@@ -5,16 +5,22 @@ namespace OpenRails_HID_Tester.ViewModels
 {
     public partial class MainWindowViewModel : ViewModelBase
     {
-        public string DeviceStatusText { get; } = "Device status: ";
+        [ObservableProperty]
+        private string deviceStatus = "Unknown";
 
-        private string _deviceStatus = "Unknown";
-        public string DeviceStatus
-        {
-            get => _deviceStatus;
-            set => SetProperty(ref _deviceStatus, value);
-        }
+        [ObservableProperty]
+        private string panto1Status = "";
+
+        [ObservableProperty]
+        private string panto2Status = "";
 
         [ObservableProperty]
         private IBrush deviceStatusBrush = Brushes.Red;
+
+        [ObservableProperty]
+        private IBrush panto1StatusBrush = Brushes.Black;
+
+        [ObservableProperty]
+        private IBrush panto2StatusBrush = Brushes.Black;
     }
 }

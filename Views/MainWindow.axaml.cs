@@ -16,7 +16,7 @@ namespace OpenRails_HID_Tester.Views
 
         public void ConnectHIDDevice(object sender, RoutedEventArgs args)
         {
-            if (DataContext is MainWindowViewModel _vm)
+            if (vm is null && DataContext is MainWindowViewModel _vm)
             {
                 vm = _vm;
             } else
@@ -24,8 +24,13 @@ namespace OpenRails_HID_Tester.Views
                 return;
             }
 
-            vm.DeviceStatus = "Connected";
+            /*vm.DeviceStatus = "Connected";
             vm.DeviceStatusBrush = Brushes.Green;
+
+            vm.Panto1Status = "Up";
+            vm.Panto1StatusBrush = Brushes.Green;
+            vm.Panto2Status = "Down";
+            vm.Panto2StatusBrush = Brushes.Red;*/
         }
     }
 }
