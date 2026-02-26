@@ -264,22 +264,40 @@ namespace OpenRails_HID_Tester.ViewModels
             _speed = speed;
             while (_isRailsAnimating)
             {
-                RailsX1 -= _speed;
-                RailsX2 -= _speed;
-                MountainX1 -= _speed * 0.05; // mountains move slower for parallax
-                MountainX2 -= _speed * 0.05;
+                double directionSpeed = 0.0;
 
+                if (isDirectionForward())
+                    directionSpeed = _speed;
+                else if (isDirectionBackwards())
+                    directionSpeed = -_speed;
+
+                // Move the elements
+                RailsX1 -= directionSpeed;
+                RailsX2 -= directionSpeed;
+                MountainX1 -= directionSpeed * 0.05; // mountains move slower for parallax
+                MountainX2 -= directionSpeed * 0.05;
+
+                // Handle looping for Rails
                 if (RailsX1 <= -800)
                     RailsX1 = RailsX2 + 800;
+                else if (RailsX1 >= 800)  // Prevent it from going off the other side when moving backwards
+                    RailsX1 = RailsX2 - 800;
 
                 if (RailsX2 <= -800)
                     RailsX2 = RailsX1 + 800;
+                else if (RailsX2 >= 800)  // Prevent it from going off the other side when moving backwards
+                    RailsX2 = RailsX1 - 800;
 
+                // Handle looping for Mountains
                 if (MountainX1 <= -800)
                     MountainX1 = MountainX2 + 800;
+                else if (MountainX1 >= 800)  // Prevent it from going off the other side when moving backwards
+                    MountainX1 = MountainX2 - 800;
 
                 if (MountainX2 <= -800)
                     MountainX2 = MountainX1 + 800;
+                else if (MountainX2 >= 800)  // Prevent it from going off the other side when moving backwards
+                    MountainX2 = MountainX1 - 800;
 
                 await Task.Delay(delay);
             }
@@ -304,6 +322,10 @@ namespace OpenRails_HID_Tester.ViewModels
             DirectionNeutralImage = isNeutral ? directionNeutralOn : directionNeutralOff;
             DirectionBackwardsImage = isBackwards ? directionBackwardsOn : directionBackwardsOff;
         }
+
+        private bool isDirectionForward() { return DirectionForwardImage == directionForwardOn; }
+        private bool isDirectionNeutral() { return DirectionNeutralImage == directionNeutralOn; }
+        private bool isDirectionBackwards() { return DirectionBackwardsImage == directionBackwardsOn; }
 
         public void StopRailsAnimation()
         {
