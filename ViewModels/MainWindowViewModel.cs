@@ -206,6 +206,39 @@ namespace OpenRails_HID_Tester.ViewModels
         [ObservableProperty]
         private int parallaxIndex = 0;
 
+        // Opposite train animation
+        private double OppositeTrainX = -2000;
+
+        [ObservableProperty]
+        private double oppositeTrainMargin = -2000;
+        private bool _isOppositeTrainAnimating = false;
+
+        public async Task AnimateOpposingTrain()
+        { 
+            if (_isOppositeTrainAnimating)
+                return;
+            _isOppositeTrainAnimating = true;
+            while (true)
+            {
+                double directionSpeed = 100.0;
+                OppositeTrainX -= directionSpeed;
+
+                if (OppositeTrainX <= -2000)
+                {
+                    OppositeTrainX = 2000;
+
+                    Random random = new Random();
+                    int waitFor = random.Next(10, 40);
+
+                    await Task.Delay(waitFor * 1000);
+                }
+
+                OppositeTrainMargin = OppositeTrainX;
+
+                await Task.Delay(16);
+            }
+        }
+
         public void UpdatePantographImages(bool panto1, bool panto2)
         {
             // Update images

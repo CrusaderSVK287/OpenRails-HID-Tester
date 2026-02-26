@@ -85,6 +85,9 @@
 
                 <Image Source="{Binding ParallaxBgImage2}"
                        Canvas.Left="{Binding MountainX2}" Margin="0,38,0,0" Height="180" Width="800" Stretch="Fill" ZIndex="-2"/>
+
+                <Image Source="avares://OpenRails-HID-Tester/Assets/TrainOpposing.png" 
+                       Width="800" ZIndex="-1" Margin="0,123,0,0" Canvas.Left="{Binding OppositeTrainMargin}"/>
             </Canvas>
 
             <!-- Base train -->
@@ -110,6 +113,7 @@
                    HorizontalAlignment="Left"
                    VerticalAlignment="Top"
                    Opacity="{Binding HeadlightsOpacity}"/>
+
 
         </Grid>
 

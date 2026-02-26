@@ -43,6 +43,8 @@ namespace OpenRails_HID_Tester.Views
 
             HIDDevice = deviceList.GetHidDevices(targetVendorId, targetProductId).FirstOrDefault();
 
+            vm.AnimateOpposingTrain();
+
             if (HIDDevice is null)
             {
                 vm.DeviceStatus = "Device not found";
@@ -61,11 +63,6 @@ namespace OpenRails_HID_Tester.Views
 
             // Start polling
             StartDevicePolling(_pollingCts.Token);
-            /*
-            vm.Panto1Status = "Up";
-            vm.Panto1StatusBrush = Brushes.Green;
-            vm.Panto2Status = "Down";
-            vm.Panto2StatusBrush = Brushes.Red;*/
         }
         static int PercentageRangeTrim(int value, int min, int max)
         {
